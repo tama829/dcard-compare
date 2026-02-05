@@ -4,7 +4,91 @@
 <meta charset="UTF-8">
 <title>dカード比較</title>
 <link rel="stylesheet" href="style.css">
+  
+<style>
+body {
+  font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+  text-align: center;
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr 1fr;
+  align-items: start;
+  gap: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card-img {
+  height: 100px;
+  margin: 10px auto;
+  border-radius: 8px;
+  line-height: 100px;
+  color: white;
+}
+
+.platinum .card-img {
+  background: #333;
+}
+
+.gold .card-img {
+  background: #c9a23f;
+}
+
+.labels p {
+  margin: 32px 0;
+  font-weight: bold;
+}
+
+.big {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.sub {
+  color: #666;
+}
+
+.badge {
+  display: inline-block;
+  background: #d60000;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.badge.red {
+  background: #d60000;
+}
+
+.redline {
+  border: none;
+  height: 4px;
+  background: red;
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.result {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr 1fr;
+  max-width: 900px;
+  margin: auto;
+  font-size: 20px;
+  font-weight: bold;
+}
+</style>
+
 </head>
+
 <body>
 
 <div class="compare">
@@ -56,6 +140,37 @@
   <div>実質料金</div>
   <div>-16,400円 / 年</div>
 </div>
+
+<script>
+const fees = {
+  normal: 0,
+  gold: 11000,
+  goldu: 3300,
+  platinum: 29700
+};
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('input', () => calculate(card));
+  card.addEventListener('change', () => calculate(card));
+  calculate(card);
+});
+
+function calculate(card) {
+  const type = card.querySelector('.cardType').value;
+  const discount = Number(card.querySelector('.discount').value);
+  const usage = Number(card.querySelector('.usage').value);
+  const rate = Number(card.querySelector('.rate').value) / 100;
+
+  const yearlyDiscount = discount * 12;
+  const yearlyPoint = usage * rate * 12;
+  const fee = fees[type];
+
+  const result = fee - (yearlyDiscount + yearlyPoint);
+
+  card.querySelector('.fee').textContent = fee.toLocaleString();
+  card.querySelector('.result').textContent = Math.round(result).toLocaleString();
+}
+</script>
 
 </body>
 </html>
