@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>dカード比較ツール</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet">
+
 <style>
 body {
   font-family: "Hiragino Kaku Gothic ProN", sans-serif;
@@ -38,8 +39,7 @@ select, input {
 }
 
 .sub {
-  font-size: 12px;
-  color: #666;
+  font-size: 14px;
 }
 
 .redline {
@@ -138,12 +138,12 @@ select, input {
   <div id="result-right">0円</div>
 </div>
 
-<script>
+<script src="script.js">
 const cardData = {
-  normal:   { fee: 0,     rate: 0.01, img: "normal.jpg" },
-  goldu:    { fee: 3300,  rate: 0.01, img: "goldu.jpg" },
-  gold:     { fee: 11000, rate: 0.10, img: "gold.jpg" },
-  platinum: { fee: 29700, rate: 0.20, img: "platinum.jpg" }
+  normal:   { fee: 0,  img: "normal.jpg" },
+  goldu:    { fee: 3300,  img: "goldu.jpg" },
+  gold:     { fee: 11000, img: "gold.jpg" },
+  platinum: { fee: 29700, img: "platinum.jpg" }
 };
 
 document.querySelectorAll("input, select").forEach(el => {
@@ -165,7 +165,7 @@ function update() {
 
     // 年額計算
     const discountYear = discount * 12;
-    const docomoYear = docomo * rate * 12;
+    const docomoYear = docomo * 12;
 
     // 年間ご利用特典
     let benefit = 0;
