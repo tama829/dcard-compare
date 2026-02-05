@@ -2,175 +2,194 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>dカード比較</title>
+<title>dカード比較ツール</title>
 <link rel="stylesheet" href="style.css">
-  
 <style>
 body {
   font-family: "Hiragino Kaku Gothic ProN", sans-serif;
   text-align: center;
 }
 
-.compare {
-  display: grid;
-  grid-template-columns: 1fr 0.8fr 1fr;
-  align-items: start;
-  gap: 20px;
-  max-width: 900px;
-  margin: auto;
+h1 {
+  margin-bottom: 20px;
 }
 
-.card h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
+table {
+  margin: auto;
+  border-collapse: collapse;
+  width: 900px;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+  padding: 12px;
+  vertical-align: middle;
+}
+
+select, input {
+  padding: 6px;
+  width: 160px;
 }
 
 .card-img {
-  height: 100px;
-  margin: 10px auto;
-  border-radius: 8px;
-  line-height: 100px;
-  color: white;
-}
-
-.platinum .card-img {
-  background: #333;
-}
-
-.gold .card-img {
-  background: #c9a23f;
-}
-
-.labels p {
-  margin: 32px 0;
-  font-weight: bold;
-}
-
-.big {
-  font-size: 22px;
-  font-weight: bold;
+  width: 200px;
+  height: auto;
+  margin-top: 10px;
 }
 
 .sub {
+  font-size: 12px;
   color: #666;
 }
 
-.badge {
-  display: inline-block;
-  background: #d60000;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 20px;
-  margin: 10px 0;
-  font-size: 14px;
-}
-
-.badge.red {
-  background: #d60000;
-}
-
 .redline {
-  border: none;
   height: 4px;
   background: red;
-  max-width: 900px;
+  border: none;
+  width: 900px;
   margin: 20px auto;
 }
 
 .result {
   display: grid;
-  grid-template-columns: 1fr 0.8fr 1fr;
-  max-width: 900px;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 900px;
   margin: auto;
   font-size: 20px;
   font-weight: bold;
 }
 </style>
-
 </head>
-
 <body>
 
-<div class="compare">
+<h1>dカード比較ツール</h1>
 
-  <!-- 左：PLATINUM -->
-  <div class="card platinum">
-    <h2>dカード PLATINUM</h2>
-    <div class="card-img">PLATINUM</div>
+<table class="compare">
+  <tr>
+    <th>
+      <select class="cardType" data-side="left">
+        <option value="platinum">dカード PLATINUM</option>
+        <option value="gold">dカード GOLD</option>
+        <option value="goldu">dカード GOLD U</option>
+        <option value="normal">dカード</option>
+      </select>
+      <img class="card-img" id="img-left" src="platinum.jpg" alt="カード画像">
+    </th>
+    <th>項目</th>
+    <th>
+      <select class="cardType" data-side="right">
+        <option value="gold">dカード GOLD</option>
+        <option value="platinum">dカード PLATINUM</option>
+        <option value="goldu">dカード GOLD U</option>
+        <option value="normal">dカード</option>
+      </select>
+      <img class="card-img" id="img-right" src="gold.jpg" alt="カード画像">
+    </th>
+  </tr>
 
-    <p class="big">29,700円</p>
-    <p>270,000円 / 月</p>
-    <p>550円 × 12ヶ月<br><span class="sub">= 6,600円</span></p>
+  <tr>
+    <td><span id="fee-left">0</span>円</td>
+    <td>年会費</td>
+    <td><span id="fee-right">0</span>円</td>
+  </tr>
 
-    <div class="badge">20%還元</div>
-    <p>1,800pt × 12ヶ月<br><span class="sub">= 21,600pt</span></p>
+  <tr>
+    <td><input type="number" class="usage" data-side="left" placeholder="月額"></td>
+    <td>dカードご利用額（月）</td>
+    <td><input type="number" class="usage" data-side="right" placeholder="月額"></td>
+  </tr>
 
-    <p class="big">30,000円</p>
-  </div>
+  <tr>
+    <td>
+      <input type="number" class="discount" data-side="left" placeholder="月額">
+      <div class="sub">×12 = <span id="discountYear-left">0</span>円</div>
+    </td>
+    <td>dカード割</td>
+    <td>
+      <input type="number" class="discount" data-side="right" placeholder="月額">
+      <div class="sub">×12 = <span id="discountYear-right">0</span>円</div>
+    </td>
+  </tr>
 
-  <!-- 中央：項目 -->
-  <div class="labels">
-    <p>年会費</p>
-    <p>dカードご利用額</p>
-    <p>dカード割</p>
-    <p>ドコモ<br>ご利用料金</p>
-    <p>年間ご利用特典</p>
-  </div>
+  <tr>
+    <td>
+      <input type="number" class="docomo" data-side="left" placeholder="月額">
+      <div class="sub">×12 = <span id="docomoYear-left">0</span>円</div>
+    </td>
+    <td>ドコモご利用料金</td>
+    <td>
+      <input type="number" class="docomo" data-side="right" placeholder="月額">
+      <div class="sub">×12 = <span id="docomoYear-right">0</span>円</div>
+    </td>
+  </tr>
 
-  <!-- 右：GOLD -->
-  <div class="card gold">
-    <h2>dカード GOLD</h2>
-    <div class="card-img">GOLD</div>
-
-    <p class="big">11,000円</p>
-    <p>270,000円 / 月</p>
-    <p>550円 × 12ヶ月<br><span class="sub">= 6,600円</span></p>
-
-    <div class="badge red">10%還元</div>
-    <p>900pt × 12ヶ月<br><span class="sub">= 10,800pt</span></p>
-
-    <p class="big">10,000円</p>
-  </div>
-</div>
+  <tr>
+    <td><span id="benefit-left">0</span>円</td>
+    <td>年間ご利用特典</td>
+    <td><span id="benefit-right">0</span>円</td>
+  </tr>
+</table>
 
 <hr class="redline">
 
 <div class="result">
-  <div>-28,500円 / 年</div>
+  <div id="result-left">0円</div>
   <div>実質料金</div>
-  <div>-16,400円 / 年</div>
+  <div id="result-right">0円</div>
 </div>
 
-<script>
-const fees = {
-  normal: 0,
-  gold: 11000,
-  goldu: 3300,
-  platinum: 29700
+<script src="script.js">
+const cardData = {
+  normal:   { fee: 0,     rate: 0.01, img: "normal.jpg" },
+  goldu:    { fee: 3300,  rate: 0.01, img: "goldu.jpg" },
+  gold:     { fee: 11000, rate: 0.10, img: "gold.jpg" },
+  platinum: { fee: 29700, rate: 0.20, img: "platinum.jpg" }
 };
 
-document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('input', () => calculate(card));
-  card.addEventListener('change', () => calculate(card));
-  calculate(card);
+document.querySelectorAll("input, select").forEach(el => {
+  el.addEventListener("input", update);
+  el.addEventListener("change", update);
 });
 
-function calculate(card) {
-  const type = card.querySelector('.cardType').value;
-  const discount = Number(card.querySelector('.discount').value);
-  const usage = Number(card.querySelector('.usage').value);
-  const rate = Number(card.querySelector('.rate').value) / 100;
+update();
 
-  const yearlyDiscount = discount * 12;
-  const yearlyPoint = usage * rate * 12;
-  const fee = fees[type];
+function update() {
+  ["left", "right"].forEach(side => {
+    const type = document.querySelector(`.cardType[data-side="${side}"]`).value;
+    const usage = Number(document.querySelector(`.usage[data-side="${side}"]`).value || 0);
+    const discount = Number(document.querySelector(`.discount[data-side="${side}"]`).value || 0);
+    const docomo = Number(document.querySelector(`.docomo[data-side="${side}"]`).value || 0);
 
-  const result = fee - (yearlyDiscount + yearlyPoint);
+    const fee = cardData[type].fee;
+    const rate = cardData[type].rate;
 
-  card.querySelector('.fee').textContent = fee.toLocaleString();
-  card.querySelector('.result').textContent = Math.round(result).toLocaleString();
+    // 年額計算
+    const discountYear = discount * 12;
+    const docomoYear = docomo * rate * 12;
+
+    // 年間ご利用特典
+    let benefit = 0;
+    if (usage >= 200000) {
+      benefit = 20000;
+    } else if (usage >= 100000) {
+      benefit = 10000;
+    }
+
+    // 実質料金
+    const result = fee - discountYear - docomoYear - benefit;
+
+    // 表示反映
+    document.getElementById(`fee-${side}`).textContent = fee.toLocaleString();
+    document.getElementById(`discountYear-${side}`).textContent = discountYear.toLocaleString();
+    document.getElementById(`docomoYear-${side}`).textContent = Math.round(docomoYear).toLocaleString();
+    document.getElementById(`benefit-${side}`).textContent = benefit.toLocaleString();
+    document.getElementById(`result-${side}`).textContent = result.toLocaleString() + "円";
+
+    // カード画像切替
+    const img = document.getElementById(`img-${side}`);
+    img.src = cardData[type].img;
+  });
 }
 </script>
-
 </body>
 </html>
