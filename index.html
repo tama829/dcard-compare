@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>dカード比較ツール</title>
+</head>
+<body>
+  <h1>dカード比較ツール</h1>
+
+  <div class="card" id="card1">
+    <h2>カード①</h2>
+    <select class="cardType">
+      <option value="normal">dカード</option>
+      <option value="gold">dカード GOLD</option>
+      <option value="goldu">dカード GOLD U</option>
+      <option value="platinum">dカード PLATINUM</option>
+    </select>
+
+    <p>dカード割（月額・円）
+      <input type="number" class="discount" value="0">
+    </p>
+
+    <p>ドコモご利用料金（月額・円）
+      <input type="number" class="usage" value="0">
+    </p>
+
+    <p>還元率（％）
+      <input type="number" class="rate" value="1">
+    </p>
+
+    <p>年会費：<span class="fee">0</span> 円</p>
+    <p>実質コスト：<span class="result">0</span> 円</p>
+  </div>
+
+  <hr>
+
+  <div class="card" id="card2">
+    <h2>カード②</h2>
+    <!-- 同じ構造なのでコピペ -->
+    <select class="cardType">
+      <option value="normal">dカード</option>
+      <option value="gold">dカード GOLD</option>
+      <option value="goldu">dカード GOLD U</option>
+      <option value="platinum">dカード PLATINUM</option>
+    </select>
+
+    <p>dカード割（月額・円）
+      <input type="number" class="discount" value="0">
+    </p>
+
+    <p>ドコモご利用料金（月額・円）
+      <input type="number" class="usage" value="0">
+    </p>
+
+    <p>還元率（％）
+      <input type="number" class="rate" value="1">
+    </p>
+
+    <p>年会費：<span class="fee">0</span> 円</p>
+    <p>実質コスト：<span class="result">0</span> 円</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+<script>
+const fees = {
+  normal: 0,
+  gold: 11000,
+  goldu: 3300,
+  platinum: 29700
+};
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('input', () => calculate(card));
+  card.addEventListener('change', () => calculate(card));
+  calculate(card);
+});
+
+function calculate(card) {
+  const type = card.querySelector('.cardType').value;
+  const discount = Number(card.querySelector('.discount').value);
+  const usage = Number(card.querySelector('.usage').value);
+  const rate = Number(card.querySelector('.rate').value) / 100;
+
+  const yearlyDiscount = discount * 12;
+  const yearlyPoint = usage * rate * 12;
+  const fee = fees[type];
+
+  const result = fee - (yearlyDiscount + yearlyPoint);
+
+  card.querySelector('.fee').textContent = fee.toLocaleString();
+  card.querySelector('.result').textContent = Math.round(result).toLocaleString();
+}
+</script>
